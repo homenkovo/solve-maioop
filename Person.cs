@@ -1,4 +1,5 @@
-class Person {
+class Person
+{
     public long Id { private set; get; }
     public string Name { set; get; }
     public string Surname { set; get; }
@@ -7,12 +8,20 @@ class Person {
 
     private static readonly Random random = new();
 
-    public Person(string name, string surname, int year, int rating = 0, long? id = null)
-    {
-        Id = id ?? random.NextInt64();
+    public Person() {
+        Name = "";
+        Surname = "";
+    }
+
+    public Person(string name, string surname, int year, int rating = 0) {
         Name = name;
         Surname = surname;
         Year = year;
         Rating = rating;
+    }
+
+    public Person(long id, string name, string surname, int year, int rating = 0): this(name, surname, year, rating)
+    {
+        Id = id;
     }
 }
