@@ -59,3 +59,7 @@ nunit-*.xml
 #Temp data (not /tmp because windows :[)
 tmp*/
 output*
+clients.txt
+goods.txt
+shops.txt
+
