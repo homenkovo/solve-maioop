@@ -15,4 +15,6 @@ class Shop : IPrimary {
     }
 
     public Shop(long id, string name, string code): this(name, code, id) {}
+
+    public Shop(): this("", "") {}
 }

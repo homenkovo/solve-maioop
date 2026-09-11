@@ -17,12 +17,5 @@ class Good : IPrimary {
 
     public Good(long id, string name, string code, decimal cost): this(name, code, cost, id) {}
 
-    public static Good[] InitGoods(int length = 20) {
-        Good[] goods = new Good[length];
-        
-        for (int i = 0; i < goods.Length; ++i) {
-            goods[i] = new Good($"Name #{random.Next()}", $"Code #{random.Next()}", random.Next());
-        }
-        return goods;
-    }
+    public Good(): this("", "", 0) {}
 }

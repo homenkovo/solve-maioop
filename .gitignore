@@ -55,3 +55,11 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Idk what was here
+tmp*/
+clients.txt
+goods.txt
+shops.txt
+output.csv
+

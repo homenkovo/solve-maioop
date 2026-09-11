@@ -24,4 +24,6 @@ class Client : IPrimary {
     }
 
     public Client(long id, string name, string surname, string other, DateOnly birth): this(name, surname, birth, other, id) {}
+
+    public Client(): this("", "", new DateOnly(1, 1, 1)) {}
 }
