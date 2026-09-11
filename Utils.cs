@@ -101,9 +101,8 @@ class Utils
 
             resultWriter.WriteLine($"{stopwatch.ElapsedTicks}");
         }
-        return persons;
     }
-        public static Client[] InitClients(int length = 20) {
+    public static Client[] InitClients(int length = 20) {
         Client[] clients = new Client[length];
         for (int i = 0; i < clients.Length; ++i) {
             clients[i] = new Client($"Name #{random.Next()}", $"Surname #{random.Next()}", new DateOnly(random.Next(1, 2025), random.Next(1, 13), random.Next(1, 29)));
