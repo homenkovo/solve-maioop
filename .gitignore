@@ -62,4 +62,4 @@ output*
 clients.txt
 goods.txt
 shops.txt
-
+*.tmp
