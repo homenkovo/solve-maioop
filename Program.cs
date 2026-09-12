@@ -9,7 +9,7 @@ class Program {
         if (args.Length == 1) {
             if (args[0] == "--test-person") {
                 TestPerson("output.csv", new int[]{10, 1000, 100000, 1000000});
-            } else if (args[0] == "--test-shops") {
+            } if (args[0] == "--test-shop") {
                 WriteGoods(GOODS_FILENAME, Utils.InitGoods(20));
                 WriteClients(CLIENTS_FILENAME, Utils.InitClients(5));
                 WriteShops(SHOPS_FILENAME, Utils.InitShops(3));
