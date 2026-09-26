@@ -1,6 +1,8 @@
-class Client : IPrimary
+namespace DAL;
+
+public class ClientDao : IPrimary
 {
-    public long Id { private set; get; }
+    public long Id { set; get; }
     public string Name { set; get; }
     public string Surname { set; get; }
     public string Other { set; get; }
@@ -17,7 +19,7 @@ class Client : IPrimary
 
     private static readonly Random random = new();
 
-    public Client(string name, string surname, DateOnly birth, string other = "", long id = 0)
+    public ClientDao(string name, string surname, DateOnly birth, string other = "", long id = 0)
     {
         Name = name;
         Surname = surname;
@@ -30,7 +32,7 @@ class Client : IPrimary
         }
     }
 
-    public Client(long id, string name, string surname, string other, DateOnly birth) : this(name, surname, birth, other, id) { }
+    public ClientDao(long id, string name, string surname, string other, DateOnly birth) : this(name, surname, birth, other, id) { }
 
-    public Client() : this("", "", new DateOnly(1, 1, 1)) { }
+    public ClientDao() : this("", "", new DateOnly(1, 1, 1)) { }
 }
