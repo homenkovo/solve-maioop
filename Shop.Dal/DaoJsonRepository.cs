@@ -3,11 +3,11 @@ using Core;
 
 namespace Shop.Dal;
 
-public class DaoFileRepository<T> where T : IPrimary
+public class DaoJsonRepository<T> where T : IPrimary
 {
     public string Filename { get; }
 
-    public DaoFileRepository(string filename)
+    public DaoJsonRepository(string filename)
     {
         Filename = filename;
     }

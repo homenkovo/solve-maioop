@@ -22,15 +22,14 @@ public class DaoXmlRepository<T> where T : IPrimary
 
     public T? Read(long id)
     {
-        using (StreamReader reader = File.OpenText(Filename))
+        List<T>? temp = ReadAll();
+        if (temp is List<T> tempT)
         {
-            string? line;
-            while ((line = reader.ReadLine()) != null)
+            foreach (T i in temp)
             {
-                object? temp = serializer.Deserialize(new MemoryStream(Encoding.UTF8.GetBytes(line!)));
-                if (temp is T tempT && tempT.Id == id)
+                if (i.Id == id)
                 {
-                    return tempT;
+                    return i;
                 }
             }
         }
@@ -38,75 +37,49 @@ public class DaoXmlRepository<T> where T : IPrimary
         return default(T);
     }
 
-    public List<T> ReadAll()
+    public List<T>? ReadAll()
     {
-        List<T> toReturn = new List<T>();
         using (StreamReader reader = File.OpenText(Filename))
         {
-            string? line;
-            while ((line = reader.ReadLine()) != null)
+            object? temp = serializer.Deserialize(reader);
+            if (temp is List<T> tempT)
             {
-                object? temp = serializer.Deserialize(new MemoryStream(Encoding.UTF8.GetBytes(line!)));
-                if (temp is T tempT)
-                {
-                    toReturn.Add(tempT);
-                }
+                return tempT
             }
         }
 
-        return toReturn;
+        return null;
     }
 
     public void Update(T updated)
     {
-        using (StreamReader reader = new(Filename))
+        List<T>? temp = ReadAll();
+        if (temp is List<T> tempT)
         {
-            using (StreamWriter writer = new($"{Filename}.tmp"))
+            foreach (T i in temp)
             {
-                bool undone = true;
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                if (i.Id == id)
                 {
-                    object? temp = serializer.Deserialize(new MemoryStream(Encoding.UTF8.GetBytes(line!)));
-                    if (undone && temp is T tempT && tempT.Id == updated.Id)
-                    {
-                        undone = false;
-                        serializer.Serialize(writer, updated);
-                    }
-                    else
-                    {
-                        writer.WriteLine(line!);
-                    }
-                }
-
-                if (undone)
-                {
-                    serializer.Serialize(writer, updated);
+                    return i;
                 }
             }
         }
 
-        File.Move($"{Filename}.tmp", Filename, true);
+        return default(T);
     }
 
     public void Delete(long id)
     {
-        using (StreamReader reader = new(Filename))
+        List<T>? temp = ReadAll();
+        if (temp is List<T> tempT)
         {
-            using (StreamWriter writer = new($"{Filename}.tmp"))
+            foreach (T i in temp)
             {
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                if (i.Id == id)
                 {
-                    object? temp = serializer.Deserialize(new MemoryStream(Encoding.UTF8.GetBytes(line!)));
-                    if (temp is T tempT && tempT.Id != id)
-                    {
-                        writer.WriteLine(line!);
-                    }
+                    tempT.Remove(i);
                 }
             }
         }
-
-        File.Move($"{Filename}.tmp", Filename, true);
     }
 }
