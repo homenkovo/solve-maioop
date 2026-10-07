@@ -6,7 +6,7 @@ namespace Shop.Dal;
 
 public class DaoXmlRepository<T> where T : IPrimary
 {
-    private static XmlSerializer serializer = new XmlSerializer(typeof(T));
+    private static XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
 
     public string Filename { get; }
 
@@ -17,7 +17,10 @@ public class DaoXmlRepository<T> where T : IPrimary
 
     public void Create()
     {
-        File.Create(Filename).Close();
+        using (StreamWriter writer = new(Filename))
+        {
+            serializer.Serialize(writer, new List<T>());
+        }
     }
 
     public T? Read(long id)
@@ -39,12 +42,12 @@ public class DaoXmlRepository<T> where T : IPrimary
 
     public List<T>? ReadAll()
     {
-        using (StreamReader reader = File.OpenText(Filename))
+        using (StreamReader reader = new(Filename))
         {
             object? temp = serializer.Deserialize(reader);
             if (temp is List<T> tempT)
             {
-                return tempT
+                return tempT;
             }
         }
 
@@ -56,16 +59,26 @@ public class DaoXmlRepository<T> where T : IPrimary
         List<T>? temp = ReadAll();
         if (temp is List<T> tempT)
         {
-            foreach (T i in temp)
+            bool notFound = true;
+            for (int i = 0; i < tempT.Count; ++i)
             {
-                if (i.Id == id)
+                if (tempT[i].Id == updated.Id)
                 {
-                    return i;
+                    tempT[i] = updated;
+                    notFound = false;
                 }
             }
-        }
 
-        return default(T);
+            if (notFound)
+            {
+                tempT.Add(updated);
+            }
+
+            using (StreamWriter writer = new(Filename))
+            {
+                serializer.Serialize(writer, tempT);
+            }
+        }
     }
 
     public void Delete(long id)
@@ -73,12 +86,10 @@ public class DaoXmlRepository<T> where T : IPrimary
         List<T>? temp = ReadAll();
         if (temp is List<T> tempT)
         {
-            foreach (T i in temp)
+            tempT.RemoveAll(x => x.Id == id);
+            using (StreamWriter writer = new(Filename))
             {
-                if (i.Id == id)
-                {
-                    tempT.Remove(i);
-                }
+                serializer.Serialize(writer, tempT);
             }
         }
     }

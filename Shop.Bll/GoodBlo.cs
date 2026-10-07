@@ -9,21 +9,33 @@ public class GoodBlo : IPrimary
     private string _name = "";
     private string _code = "";
 
-    public string Name { set {
-        if (string.IsNullOrWhiteSpace(value)) {
-            throw new ArgumentException("Name cannot be empty.");
+    public string Name
+    {
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Name cannot be empty.");
+            }
+
+            _name = value;
         }
+        get => _name;
+    }
 
-        _name = value;
-    } get => _name; }
+    public string Code
+    {
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Code cannot be empty.");
+            }
 
-    public string Code { set {
-        if (string.IsNullOrWhiteSpace(value)) {
-            throw new ArgumentException("Code cannot be empty.");
+            _code = value;
         }
-
-        _code = value;
-    } get => _code; }
+        get => _code;
+    }
 
     public decimal Cost { set; get; }
 

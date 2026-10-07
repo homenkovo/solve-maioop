@@ -15,5 +15,5 @@ public class ShopDao : IPrimary
         Code = code;
     }
 
-    public ShopDao() {}
+    public ShopDao() { }
 }
